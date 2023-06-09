@@ -22,10 +22,11 @@ class Pawn extends Piece {
             return true;
 
         //Check if pawn only move one square up or down
-        if (Math.abs(endRank - this.rank) != 1)
+        if (this.color === 'white' && endRank !== this.rank + 1)
+            return false;
+        if (this.color === 'black' && endRank !== this.rank - 1)
             return false;
 
-        //Check en passant TODO
         //if going straight check if there is nothing
         if (endFile === this.file && endSquare === undefined)
             return true;
