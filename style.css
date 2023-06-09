@@ -15,7 +15,7 @@
 }
 
 table{
-    display: inline;
+    display: inline-block;
 }
 
 h2 {
