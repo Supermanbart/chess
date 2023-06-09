@@ -264,8 +264,7 @@ function move(e)
                     if (ennemyKing.isCheckMated(game))
                     {
                         game.isOver = true;
-                        let gameOver = document.createElement("h1")
-                        document.body.append(gameOver);
+                        let gameOver = document.getElementById("gameOver");
                         gameOver.innerText = `GAME OVER ${game.turn} has won`
                     }
                 }
