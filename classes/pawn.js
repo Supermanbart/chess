@@ -63,7 +63,7 @@ class Pawn extends Piece {
          lastMove[0] === `${indexToChessNotation(6, file)}` &&
          lastMove[1] === `${indexToChessNotation(4, file)}`)
             return true;
-        if (this.color == 'black' && this.rank == 3 && rank === 2 && Math.abs(endFile - this.file) === 1 &&
+        if (this.color == 'black' && this.rank == 3 && rank === 2 && Math.abs(file - this.file) === 1 &&
          pawnEaten !== undefined instanceof Pawn &&
          lastMove[0] === `${indexToChessNotation(1, file)}` &&
          lastMove[1] === `${indexToChessNotation(3, file)}`)
