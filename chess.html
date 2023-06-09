@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <table class="chess-board"></table>
+
+        <h2 id="turn">White to play</h2>
+
+        <p id="turnNumber">n° turn: 0</p>
+
+        <p id="move"></p>
+
+        <div id="promotion" display="none">
+            <button onclick="promoteToQueen()">Queen</button>
+            <button onclick="promoteToRook()">Rook</button>
+            <button onclick="promoteToBishop()">Bishop</button>
+            <button onclick="promoteToKnight()">Knight</button>
+        </div>
+
+        <script src="classes/board.js"></script>
+        <script src="classes/piece.js"></script>
+        <script src="classes/pawn.js"></script>
+        <script src ="classes/rook.js"></script>
+        <script src ="classes/knight.js"></script>
+        <script src="classes/bishop.js"></script>
+        <script src="classes/queen.js"></script>
+        <script src="classes/king.js"></script>
+        <script src="chess.js" async defer></script>
+    </body>
+</html>

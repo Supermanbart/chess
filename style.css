@@ -1,0 +1,27 @@
+.whiteSquare {
+    background-color: #eee;
+}
+
+.blackSquare {
+    background-color: #aaa;
+}
+
+.chess-board td{ 
+    border: 1px solid;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    font-size: 32px;
+}
+
+table{
+    display: inline;
+}
+
+h2 {
+    display: inline-block;
+}
+
+p {
+    display: inline-block;
+}
