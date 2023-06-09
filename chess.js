@@ -264,20 +264,10 @@ function move(e)
                     game.checkedSquare = "";
                 }
 
-                if (ennemyKing.isChecked(game))
-                {
-                    game.checkedSquare = indexToChessNotation(ennemyKing.rank, ennemyKing.file);
-                    document.getElementById(game.checkedSquare).style.color = "red";
-                    if (ennemyKing.isCheckMated(game))
-                    {
-                        game.isOver = true;
-                        let gameOver = document.getElementById("gameOver");
-                        gameOver.innerText = `GAME OVER ${game.turn} has won`
-                    }
-                }
 
                 if (pieceSelected instanceof Pawn && (rank === 7 || rank === 0))
                     promotePawn(pieceSelected)
+                endTurn(game);
                 if (game.turn === "white")
                 {
                     game.turn = 'black';
@@ -303,7 +293,65 @@ function move(e)
         pieceSelected = undefined;
 }
 
+function isDraw(game){
+    //Check Stalemate
+    let ennemies = game.blackPieces;
+    let ennemyKing = game.blackKing;
+    if (game.turn === 'black')
+    {
+        ennemies = game.whitePieces;
+        ennemyKing = game.whiteKing;
+    }
+    if (!ennemyKing.isChecked(game))
+    {
+        let canMove = false;
+        for (piece of ennemies)
+        {
+            for (let i = 0; i < 8; i++)
+            {
+                for (let j = 0; j < 8; j++) {
+                    if (piece.canMove(i, j, game))
+                    {
+                        canMove = true;
+                        break;
+                    }
+                }
+                if (canMove)
+                    break;
+            }
+        }
+        if (!canMove)
+            return "Stalemate";
+    }
+    //Check insufficient material
 
+    return undefined;
+}
+
+function endTurn(game){
+    let ennemyKing = game.blackKing;
+    if (game.turn === 'black')
+        ennemyKing = game.whiteKing;
+    
+    let draw = undefined
+    if (ennemyKing.isChecked(game))
+    {
+        game.checkedSquare = indexToChessNotation(ennemyKing.rank, ennemyKing.file);
+        document.getElementById(game.checkedSquare).style.color = "red";
+        if (ennemyKing.isCheckMated(game))
+        {
+            game.isOver = true;
+            let gameOver = document.getElementById("gameOver");
+            gameOver.innerText = `GAME OVER ${game.turn} has won`
+        }
+    }
+    else if (draw = isDraw(game))
+    {
+        game.isOver = true;
+        let gameOver = document.getElementById("gameOver");
+        gameOver.innerText = `IT'S A DRAW (${draw})`;
+    }
+}
 
 
 //const board = new Board();
