@@ -222,12 +222,20 @@ function move(e)
         {
             let endSquare = game.board.board[rank][file];
 
-            pieceSelected.move(rank, file, game.board)
-            pieceSelected.canCastle = false;
+            let removedPiece = endSquare;
             if (endSquare !== undefined)
             {
-                removePiece(endSquare)
+                removePiece(removedPiece)
             }
+            if (pieceSelected instanceof Pawn && pieceSelected.enPassant(rank, file, game))
+            {
+                removedPiece = game.board.board[pieceRank][file];
+                game.board.board[removedPiece.rank][removedPiece.file] = undefined;
+                removePiece(removedPiece);
+            }
+            pieceSelected.move(rank, file, game.board);
+            pieceSelected.canCastle = false;
+
             let king = game.whiteKing;
             let ennemyKing = game.blackKing;
             if (game.turn === 'black')
@@ -239,15 +247,14 @@ function move(e)
             if (king.isChecked(game))
             {
                 pieceSelected.move(pieceRank, pieceFile, game.board)
-                if (endSquare !== undefined)
+                if (removedPiece !== undefined)
                 {
-                    addPiece(endSquare);
-                    endSquare.move(rank, file, game.board);
+                    addPiece(removedPiece);
+                    removedPiece.move(removedPiece.rank, removedPiece.file, game.board);
                 }
             }
             else
             {
-                document.querySelector("table").style.color = "black";
                 fillBoard(game.board.board);
                 game.moves.push([indexToChessNotation(pieceRank, pieceFile), indexToChessNotation(rank, file)])
                 document.getElementById("move").innerText += `${game.moves[game.moves.length - 1][0]}-${game.moves[game.moves.length - 1][1]}, `
