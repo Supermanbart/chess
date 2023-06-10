@@ -117,11 +117,16 @@ class King extends Piece{
                         let endRank = i;
                         let endFile = j;
                         let endPiece = game.board.board[i][j];
-                        ally.move(i, j, game.board)
+                        ally.move(i, j, game.board);
+                        if (endPiece !== undefined)
+                            removePiece(endPiece);
                         let res = this.isChecked(game);
                         ally.move(startRank, startFile, game.board);
                         if (endPiece !== undefined)
+                        {
                             endPiece.move(endRank, endFile, game.board);
+                            addPiece(endPiece);
+                        }
                         if (!res)
                             return false;
                     }

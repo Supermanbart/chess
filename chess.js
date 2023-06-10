@@ -108,18 +108,10 @@ function fillPieces(game)
 
 function removePiece(piece)
 {
-    if (game.turn === "white")
-    {
-        let index = game.blackPieces.indexOf(piece);
-        if (index != -1)
-            game.blackPieces.splice(index, 1);
-    }
-    else
-    {
-        let index = game.whitePieces.indexOf(piece);
-        if (index != -1)
-            game.whitePieces.splice(index, 1);
-    }
+    let pieces = piece.color === 'white' ? game.whitePieces : game.blackPieces;
+    let index = pieces.indexOf(piece)
+    if (index != - 1)
+        pieces.splice(index, 1)
 }
 
 function addPiece(piece)
