@@ -56,4 +56,8 @@ class Board {
             console.log(line);
         }
     }
+    squareColor(rank, file)
+    {
+        return ((rank + file) % 2 === 0 ? 'black' : 'white');
+    }
 }

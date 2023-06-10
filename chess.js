@@ -323,8 +323,27 @@ function isDraw(game){
         if (!canMove)
             return "Stalemate";
     }
-    //Check insufficient material
 
+    //Check insufficient material
+    if (game.whitePieces.length === 1 && game.blackPieces.length === 1)
+        return "Insufficient material";
+    let pieces = game.whitePieces;
+    if (game.whitePieces.length === 1)
+        pieces = game.blackPieces;
+    if (pieces.length === 2 && (game.whitePieces.length === 1 || game.blackPieces.length === 1) &&
+        (pieces[0] instanceof Bishop || pieces[0] instanceof Knight ||
+         pieces[1] instanceof Bishop || pieces[1] instanceof Knight))
+        return "Insufficient material";
+    if (game.whitePieces.length === 2 && game.blackPieces.length === 2 && 
+        (game.whitePieces[0] instanceof Bishop || game.whitePieces[1] instanceof Bishop) &&
+        (game.blackPieces[0] instanceof Bishop || game.blackPieces[1] instanceof Bishop))
+    {
+        let whiteBishop = game.whitePieces[0] instanceof Bishop ? game.whitePieces[0] : game.whitePieces[1];
+        let blackBishop = game.blackPieces[0] instanceof Bishop ? game.blackPieces[0] : game.blackPieces[1];
+        if (game.board.squareColor(whiteBishop.rank, whiteBishop.file) === game.board.squareColor(blackBishop.rank, blackBishop.file))
+            return "Insufficient material";
+    }
+    
     return undefined;
 }
 
