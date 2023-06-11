@@ -10,29 +10,76 @@ class King extends Piece{
 
         this.canCastle = true;
     }
-    castle(endRank, endFile, board) {
+    castle(endRank, endFile, game)
+    {
+        let rook = (endFile === 2 ? game.board.board[endRank][0] : game.board.board[endRank][7]);
+        if (endFile === 2)
+        {
+            rook.move(endRank, 3, game.board);
+            this.move(endRank, endFile, game.board);
+        }
+        else if (endFile === 6)
+        {
+            rook.move(endRank, 5, game.board);
+            this.move(endRank, endFile, game.board);
+        }
+        rook.canCastle = false;
+        this.canCastle = false;
+    }
+    canCastlefunct(endRank, endFile, game) {
         if (!this.canCastle || (endFile !== 6 && endFile !== 2) || endRank !== this.rank)
             return false;
 
-        let rookLeft = board.board[0][0];
-        let rookRight = board.board[0][7];
+        let board = game.board.board;
+        let rookLeft = board[0][0];
+        let rookRight = board[0][7];
         if (this.color === "black") {
-            rookLeft = board.board[7][0];
-            rookRight = board.board[7][7];
+            rookLeft = board[7][0];
+            rookRight = board[7][7];
         }
 
         if (endFile === 2 && rookLeft !== undefined && rookLeft.canCastle &&
-            board.board[this.rank][this.file - 1] === undefined &&
-            board.board[this.rank][this.file - 2] === undefined &&
-            board.board[this.rank][this.file - 3] === undefined) {
-            rookLeft.move(this.rank, rookLeft.file + 3, board);
+            board[this.rank][this.file - 1] === undefined &&
+            board[this.rank][this.file - 2] === undefined &&
+            board[this.rank][this.file - 3] === undefined) 
+        {
+            this.move(this.rank, this.file - 1, game.board)
+            {
+                if (this.isChecked(game))
+                {
+                    this.move(this.rank, this.file + 1, game.board)
+                    return false;
+                }
+            }
+            this.move(this.rank, this.file - 1, game.board)
+            {
+                if (this.isChecked(game))
+                {
+                    this.move(this.rank, this.file + 2, game.board)
+                    return false
+                }
+            }
+            this.move(this.rank, this.file + 2, game.board);
             return true;
         }
 
         if (endFile === 6 && rookRight !== undefined && rookRight.canCastle &&
-            board.board[this.rank][this.file + 1] === undefined &&
-            board.board[this.rank][this.file + 2] === undefined) {
-            rookRight.move(this.rank, rookRight.file - 2, board);
+            board[this.rank][this.file + 1] === undefined &&
+            board[this.rank][this.file + 2] === undefined) 
+        {
+            this.move(this.rank, this.file + 1, game.board)
+            if (this.isChecked(game))
+            {
+                this.move(this.rank, this.file - 1, game.board);
+                return false;
+            }
+            this.move(this.rank, this.file + 1, game.board);
+            if (this.isChecked(game))
+            {
+                this.move(this.rank, this.file - 2, game.board);
+                return false;
+            }
+            this.move(this.rank, this.file - 2, game.board);
             return true;
         }
 
@@ -40,7 +87,7 @@ class King extends Piece{
         return false;
     }
     canMove(endRank, endFile, game) {
-        if (this.castle(endRank, endFile, game.board))
+        if (this.canCastlefunct(endRank, endFile, game))
             return true;
 
         //Check moveset of king : move only 1 square

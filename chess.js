@@ -224,9 +224,18 @@ function move(e)
                 removedPiece = game.board.board[pieceRank][file];
                 game.board.board[removedPiece.rank][removedPiece.file] = undefined;
                 removePiece(removedPiece);
+                pieceSelected.move(rank, file, game.board);
+                pieceSelected.canCastle = false;
             }
-            pieceSelected.move(rank, file, game.board);
-            pieceSelected.canCastle = false;
+            else if (pieceSelected instanceof King && pieceSelected.canCastlefunct(rank, file, game))
+            {
+                pieceSelected.castle(rank, file, game);
+            }
+            else
+            {
+                pieceSelected.move(rank, file, game.board);
+                pieceSelected.canCastle = false;
+            }
 
             let king = game.whiteKing;
             let ennemyKing = game.blackKing;
