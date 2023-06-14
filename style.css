@@ -17,10 +17,16 @@
 .info {
     float: left;
     padding-left: 10px;
+    height: 150px
 }
 
 #board{
     float: left;
+}
+
+#moveWrapper{
+    height: 480px;
+    overflow-y: scroll;
 }
 
 #move{
@@ -28,4 +34,7 @@
 }
 #move td{
     border: 1px solid;
+    width: 5em;
+    height: 2em;
+    text-align: center;
 }
