@@ -258,7 +258,21 @@ function move(e)
             {
                 fillBoard(game.board.board);
                 game.moves.push([indexToChessNotation(pieceRank, pieceFile), indexToChessNotation(rank, file)])
-                document.getElementById("move").innerText += `${game.moves[game.moves.length - 1][0]}-${game.moves[game.moves.length - 1][1]}, `
+                const move = document.getElementById("move");
+                let row = undefined
+                if (game.turn === "white")
+                {
+                    row = document.createElement("tr");
+                    move.appendChild(row);
+                }
+                else
+                {
+                    row = move.lastChild;
+                }
+                let td = document.createElement("td");
+                row.appendChild(td);
+                td.innerText = `${game.moves[game.moves.length - 1][0]}-${game.moves[game.moves.length - 1][1]}`;
+                
                 if (game.checkedSquare !== "")
                 {
                     document.getElementById(game.checkedSquare).style.color = "black";
