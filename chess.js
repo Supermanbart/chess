@@ -19,6 +19,7 @@ function createBoard(){
     let table = document.querySelector('.chess-board');
 
     let row = document.createElement("tr");
+    row.style.display = "none";
     table.append(row);
     const rowString = " ABCDEFGH";
     for (let i = 0; i < 9; i++)
@@ -32,7 +33,7 @@ function createBoard(){
         row = document.createElement("tr");
         table.append(row);
 
-        const curr = document.createElement("th");
+        let curr = document.createElement("th");
         curr.innerText = `${8 - i}`;
         row.append(curr)
 
@@ -50,7 +51,21 @@ function createBoard(){
             }
             row.append(square);
         }
+        curr = document.createElement("th");
+        curr.innerText = `${8 - i}`;
+        curr.style.display = "none";
+        row.append(curr);
     }
+    
+    row = document.createElement("tr");
+    table.append(row);
+    for (let i = 0; i < 9; i++)
+    {
+        const curr = document.createElement("th");
+        curr.innerText = `${rowString[i]}`;
+        row.append(curr)
+    }
+
 }
 
 function chessNotationtoindex(str)
@@ -370,6 +385,7 @@ function endTurn(game){
             game.isOver = true;
             let gameOver = document.getElementById("gameOver");
             gameOver.innerText = `GAME OVER ${game.turn} has won`
+            return;
         }
     }
     else if (draw = isDraw(game))
@@ -377,6 +393,7 @@ function endTurn(game){
         game.isOver = true;
         let gameOver = document.getElementById("gameOver");
         gameOver.innerText = `IT'S A DRAW (${draw})`;
+        return;
     }
     if (game.turn === "white")
     {
@@ -389,6 +406,35 @@ function endTurn(game){
         document.querySelector("#turn").innerText = "White to play";
         game.turnNumber += 1;
         document.getElementById("turnNumber").innerText = `Turn: ${game.turnNumber}`;
+    }
+
+    // Rotate board
+    const board = document.getElementById("board");
+    if (game.turn === 'white')
+    {
+        board.rows[0].style.display = "none";
+        board.rows[9].style.display = "";
+    }
+    else
+    {
+        board.rows[9].style.display = "none";
+        board.rows[0].style.display = "";
+    }
+
+    let degrees = (game.turn === "black" ? 180 : 0);
+    let firstCol = (game.turn === "white" ? "" : "none");
+    let lastCol = (game.turn === "white" ? "none" : "");
+    board.style.transform = `rotate(${degrees}deg)`;
+    for (let i = 0, row; row = board.rows[i]; i++)
+    {
+        for (let j = 0, cell; cell = row.cells[j]; j++)
+        {
+            if (j === 0)
+                cell.style.display = firstCol;
+            if (j === 9)
+                cell.style.display = lastCol;
+            cell.style.transform = `rotate(${degrees}deg)`;
+        }
     }
 }
 
