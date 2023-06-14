@@ -31,9 +31,6 @@ class Pawn extends Piece {
         if (endFile === this.file && endSquare === undefined)
             return true;
 
-        if (endFile !== this.file && endSquare !== undefined)
-            return true;
-
         //if going diagonaly check if there is a piece of the opposite color
         if ((endFile - this.file === -1 || endFile - this.file === 1) &&
             endSquare !== undefined && endSquare.color !== this.color)
