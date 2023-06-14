@@ -138,6 +138,7 @@ function promoteToQueen()
     pieces.push(queen);
     document.getElementById("promotion").style.display = "none";
     fillBoard(game.board.board);
+    endTurn(game);
 }
 
 function promoteToRook()
@@ -151,6 +152,7 @@ function promoteToRook()
     pieces.push(rook);
     document.getElementById("promotion").style.display = "none";
     fillBoard(game.board.board);
+    endTurn(game);
 }
 
 function promoteToBishop()
@@ -164,6 +166,7 @@ function promoteToBishop()
     pieces.push(bishop);
     document.getElementById("promotion").style.display = "none";
     fillBoard(game.board.board);
+    endTurn(game);
 }
 
 function promoteToKnight()
@@ -177,6 +180,7 @@ function promoteToKnight()
     pieces.push(knight);
     document.getElementById("promotion").style.display = "none";
     fillBoard(game.board.board);
+    endTurn(game);
 }
 
 function promotePawn(pawn)
@@ -281,20 +285,9 @@ function move(e)
 
 
                 if (pieceSelected instanceof Pawn && (rank === 7 || rank === 0))
-                    promotePawn(pieceSelected)
-                endTurn(game);
-                if (game.turn === "white")
-                {
-                    game.turn = 'black';
-                    document.querySelector("#turn").innerText = "Black to move";
-                }
+                    promotePawn(pieceSelected);
                 else
-                {
-                    game.turn = 'white';
-                    document.querySelector("#turn").innerText = "White to move";
-                    game.turnNumber += 1;
-                    document.getElementById("turnNumber").innerText = `n° de tour: ${game.turnNumber}`;
-                }
+                    endTurn(game);
             }       
         }
         else
@@ -384,6 +377,18 @@ function endTurn(game){
         game.isOver = true;
         let gameOver = document.getElementById("gameOver");
         gameOver.innerText = `IT'S A DRAW (${draw})`;
+    }
+    if (game.turn === "white")
+    {
+        game.turn = 'black';
+        document.querySelector("#turn").innerText = "Black to play";
+    }
+    else
+    {
+        game.turn = 'white';
+        document.querySelector("#turn").innerText = "White to play";
+        game.turnNumber += 1;
+        document.getElementById("turnNumber").innerText = `Turn: ${game.turnNumber}`;
     }
 }
 
