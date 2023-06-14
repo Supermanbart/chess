@@ -27,7 +27,8 @@ class King extends Piece{
         this.canCastle = false;
     }
     canCastlefunct(endRank, endFile, game) {
-        if (!this.canCastle || (endFile !== 6 && endFile !== 2) || endRank !== this.rank)
+        if (!this.canCastle || (endFile !== 6 && endFile !== 2) || endRank !== this.rank ||
+         this.isChecked(game))
             return false;
 
         let board = game.board.board;
