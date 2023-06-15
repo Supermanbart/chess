@@ -491,6 +491,8 @@ function rotationButtonFunc()
 
 function resign()
 {
+    if (game.isOver)
+        return;
     game.isOver = true;
     let gameOver = document.getElementById("gameOver");
     const winner = (game.turn === "white" ? "Black" : "White");
