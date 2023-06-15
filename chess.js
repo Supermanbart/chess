@@ -12,6 +12,9 @@ const game = {
     isOver: false
 };
 
+let rotationButton = "changing";
+let boardRotation = "white";
+
 let pieceSelected = undefined;
 
 //Used "https://stackoverflow.com/questions/26432492/chessboard-html5-only" to create the board
@@ -409,8 +412,14 @@ function endTurn(game){
     }
 
     // Rotate board
+    if (rotationButton === "changing")
+        rotateBoard();
+}
+
+function rotateBoard()
+{
     const board = document.getElementById("board");
-    if (game.turn === 'white')
+    if (boardRotation === 'black')
     {
         board.rows[0].style.display = "none";
         board.rows[9].style.display = "";
@@ -421,9 +430,9 @@ function endTurn(game){
         board.rows[0].style.display = "";
     }
 
-    let degrees = (game.turn === "black" ? 180 : 0);
-    let firstCol = (game.turn === "white" ? "" : "none");
-    let lastCol = (game.turn === "white" ? "none" : "");
+    let degrees = (boardRotation === "white" ? 180 : 0);
+    let firstCol = (boardRotation === "black" ? "" : "none");
+    let lastCol = (boardRotation === "black" ? "none" : "");
     board.style.transform = `rotate(${degrees}deg)`;
     for (let i = 0, row; row = board.rows[i]; i++)
     {
@@ -436,9 +445,33 @@ function endTurn(game){
             cell.style.transform = `rotate(${degrees}deg)`;
         }
     }
+    boardRotation = (boardRotation === 'white' ? 'black' : "white");
 }
 
-
+function rotationButtonFunc()
+{
+    const button = document.getElementById("rotation");
+    if (rotationButton === "changing")
+    {
+        if (boardRotation === 'black')
+            rotateBoard();
+        rotationButton = "white";
+        button.innerText = "Rotation : White";
+    }
+    else if (rotationButton === "white")
+    {
+        rotateBoard();
+        rotationButton = "black";
+        button.innerText = "Rotation : Black";
+    }
+    else if (rotationButton === 'black')
+    {
+        if (game.turn === "white")
+            rotateBoard();
+        rotationButton = "changing";
+        button.innerText = "Rotation : Changing";
+    }
+}
 //const board = new Board();
 //let r = new Rook("white", 2, 0);
 //let n = board.board[0][1];
