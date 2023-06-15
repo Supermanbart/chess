@@ -472,6 +472,14 @@ function rotationButtonFunc()
         button.innerText = "Rotation : Changing";
     }
 }
+
+function resign()
+{
+    game.isOver = true;
+    let gameOver = document.getElementById("gameOver");
+    const winner = (game.turn === "white" ? "Black" : "White");
+    gameOver.innerText = `GAME OVER ${winner} has won (resign)`;
+}
 //const board = new Board();
 //let r = new Rook("white", 2, 0);
 //let n = board.board[0][1];
