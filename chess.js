@@ -9,6 +9,7 @@ const game = {
     checkedSquare: "",
     turnNumber: 0,
     moves: [],
+    position: [],
     isOver: false
 };
 
@@ -369,6 +370,21 @@ function isDraw(game){
         if (game.board.squareColor(whiteBishop.rank, whiteBishop.file) === game.board.squareColor(blackBishop.rank, blackBishop.file))
             return "Insufficient material";
     }
+
+    //Check for repeted position three times
+    let currPosition = game.board.toString();
+    let findPosition = 0;
+    while (findPosition < game.position.length && game.position[findPosition][0] !== currPosition)
+        findPosition++;
+
+    if (findPosition < game.position.length)
+    {
+        game.position[findPosition][1] += 1;
+        if (game.position[findPosition][1] === 3)
+            return "Repetition";
+    }
+    else
+        game.position.push([currPosition, 1]);
     
     return undefined;
 }
@@ -378,7 +394,7 @@ function endTurn(game){
     if (game.turn === 'black')
         ennemyKing = game.whiteKing;
     
-    let draw = undefined
+    let draw = undefined;
     if (ennemyKing.isChecked(game))
     {
         game.checkedSquare = indexToChessNotation(ennemyKing.rank, ennemyKing.file);
@@ -499,3 +515,4 @@ document.getElementById("promotion").style.display = "none";
 createBoard();
 fillPieces(game);
 fillBoard(game.board.board);
+game.position.push([game.board.toString(), 1]);

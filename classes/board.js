@@ -60,4 +60,19 @@ class Board {
     {
         return ((rank + file) % 2 === 0 ? 'black' : 'white');
     }
+    toString()
+    {
+        let res = "";
+        for (let row of this.board)
+        {
+            for (let square of row)
+            {
+                if (square !== undefined)
+                    res += square.symbol;
+                else
+                    res += "."
+            }
+        }
+        return res;
+    }
 }
