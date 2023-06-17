@@ -1,3 +1,8 @@
+body {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
 .whiteSquare {
     background-color: #eee;
 }

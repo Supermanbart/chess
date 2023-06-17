@@ -230,94 +230,94 @@ function move(e)
         return;
     }
 
-        let [rank, file] = chessNotationtoindex(e.target.id);
-        let pieceRank = pieceSelected.rank;
-        let pieceFile = pieceSelected.file;
-        if (pieceSelected.canMove(rank, file, game))
+    let [rank, file] = chessNotationtoindex(e.target.id);
+    let pieceRank = pieceSelected.rank;
+    let pieceFile = pieceSelected.file;
+    if (pieceSelected.canMove(rank, file, game))
+    {
+        let endSquare = game.board.board[rank][file];
+
+        let removedPiece = endSquare;
+        if (endSquare !== undefined)
         {
-            let endSquare = game.board.board[rank][file];
-
-            let removedPiece = endSquare;
-            if (endSquare !== undefined)
-            {
-                removePiece(removedPiece)
-            }
-            if (pieceSelected instanceof Pawn && pieceSelected.enPassant(rank, file, game))
-            {
-                removedPiece = game.board.board[pieceRank][file];
-                game.board.board[removedPiece.rank][removedPiece.file] = undefined;
-                removePiece(removedPiece);
-                pieceSelected.move(rank, file, game.board);
-                pieceSelected.canCastle = false;
-            }
-            else if (pieceSelected instanceof King && pieceSelected.canCastlefunct(rank, file, game))
-            {
-                pieceSelected.castle(rank, file, game);
-            }
-            else
-            {
-                pieceSelected.move(rank, file, game.board);
-                pieceSelected.canCastle = false;
-            }
-
-            let king = game.whiteKing;
-            let ennemyKing = game.blackKing;
-            if (game.turn === 'black')
-            {
-                king = game.blackKing;
-                ennemyKing = game.whiteKing
-            }
-
-            if (king.isChecked(game))
-            {
-                pieceSelected.move(pieceRank, pieceFile, game.board)
-                if (removedPiece !== undefined)
-                {
-                    addPiece(removedPiece);
-                    removedPiece.move(removedPiece.rank, removedPiece.file, game.board);
-                }
-            }
-            else
-            {
-                fillBoard(game.board.board);
-                game.moves.push([indexToChessNotation(pieceRank, pieceFile), indexToChessNotation(rank, file)])
-                const move = document.getElementById("move");
-                let row = undefined
-                if (game.turn === "white")
-                {
-                    row = document.createElement("tr");
-                    move.appendChild(row);
-                }
-                else
-                {
-                    row = move.lastChild;
-                }
-                let td = document.createElement("td");
-                row.appendChild(td);
-                td.innerText = `${game.moves[game.moves.length - 1][0]}-${game.moves[game.moves.length - 1][1]}`;
-                
-                if (game.checkedSquare !== "")
-                {
-                    document.getElementById(game.checkedSquare).style.color = "black";
-                    game.checkedSquare = "";
-                }
-
-
-                if (pieceSelected instanceof Pawn && (rank === 7 || rank === 0))
-                    promotePawn(pieceSelected);
-                else
-                    endTurn(game);
-            }       
+            removePiece(removedPiece)
+        }
+        if (pieceSelected instanceof Pawn && pieceSelected.enPassant(rank, file, game))
+        {
+            removedPiece = game.board.board[pieceRank][file];
+            game.board.board[removedPiece.rank][removedPiece.file] = undefined;
+            removePiece(removedPiece);
+            pieceSelected.move(rank, file, game.board);
+            pieceSelected.canCastle = false;
+        }
+        else if (pieceSelected instanceof King && pieceSelected.canCastlefunct(rank, file, game))
+        {
+            pieceSelected.castle(rank, file, game);
         }
         else
-            console.log("Cant move" + pieceSelected.symbol + "at" + rank + "," + file);
-        
-        console.log(indexToChessNotation(pieceRank,pieceFile))
-        if (isLightSquare(pieceRank, pieceFile))
-            document.getElementById(indexToChessNotation(pieceRank, pieceFile)).style.backgroundColor = "#eee";
+        {
+            pieceSelected.move(rank, file, game.board);
+            pieceSelected.canCastle = false;
+        }
+
+        let king = game.whiteKing;
+        let ennemyKing = game.blackKing;
+        if (game.turn === 'black')
+        {
+            king = game.blackKing;
+            ennemyKing = game.whiteKing
+        }
+
+        if (king.isChecked(game))
+        {
+            pieceSelected.move(pieceRank, pieceFile, game.board)
+            if (removedPiece !== undefined)
+            {
+                addPiece(removedPiece);
+                removedPiece.move(removedPiece.rank, removedPiece.file, game.board);
+            }
+        }
         else
-            document.getElementById(indexToChessNotation(pieceRank, pieceFile)).style.backgroundColor = "#aaa";
-        pieceSelected = undefined;
+        {
+            fillBoard(game.board.board);
+            game.moves.push([indexToChessNotation(pieceRank, pieceFile), indexToChessNotation(rank, file)])
+            const move = document.getElementById("move");
+            let row = undefined
+            if (game.turn === "white")
+            {
+                row = document.createElement("tr");
+                move.appendChild(row);
+            }
+            else
+            {
+                row = move.lastChild;
+            }
+            let td = document.createElement("td");
+            row.appendChild(td);
+            td.innerText = `${game.moves[game.moves.length - 1][0]}-${game.moves[game.moves.length - 1][1]}`;
+            
+            if (game.checkedSquare !== "")
+            {
+                document.getElementById(game.checkedSquare).style.color = "black";
+                game.checkedSquare = "";
+            }
+
+
+            if (pieceSelected instanceof Pawn && (rank === 7 || rank === 0))
+                promotePawn(pieceSelected);
+            else
+                endTurn(game);
+        }       
+    }
+    else
+        console.log("Cant move" + pieceSelected.symbol + "at" + rank + "," + file);
+    
+    console.log(indexToChessNotation(pieceRank,pieceFile))
+    if (isLightSquare(pieceRank, pieceFile))
+        document.getElementById(indexToChessNotation(pieceRank, pieceFile)).style.backgroundColor = "#eee";
+    else
+        document.getElementById(indexToChessNotation(pieceRank, pieceFile)).style.backgroundColor = "#aaa";
+    pieceSelected = undefined;
 }
 
 function isDraw(game){
