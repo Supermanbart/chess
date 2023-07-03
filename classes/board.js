@@ -60,7 +60,7 @@ class Board {
     {
         return ((rank + file) % 2 === 0 ? 'black' : 'white');
     }
-    toString()
+    toString(game)
     {
         let res = "";
         for (let row of this.board)
@@ -68,7 +68,11 @@ class Board {
             for (let square of row)
             {
                 if (square !== undefined)
+                {
                     res += square.symbol;
+                    if (square instanceof King && square.isChecked(game))
+                        res += "+";
+                }
                 else
                     res += "."
             }

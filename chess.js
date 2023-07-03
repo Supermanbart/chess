@@ -383,7 +383,7 @@ function isDraw(game){
     }
 
     //Check for repeted position three times
-    let currPosition = game.board.toString();
+    let currPosition = game.board.toString(game);
     let findPosition = 0;
     while (findPosition < game.position.length - 1 && game.position[findPosition][0] !== currPosition)
         findPosition++;
@@ -406,7 +406,7 @@ function endTurn(game){
         ennemyKing = game.whiteKing;
     
     game.positionNumber++;
-    game.position.push([game.board.toString(), 1]);
+    game.position.push([game.board.toString(game), 1]);
 
     let draw = undefined;
     if (ennemyKing.isChecked(game))
@@ -509,11 +509,18 @@ function displayFromStr(str)
     for (let i = 0; i < 8; i++){
         for (let j = 0; j < 8; j++)
         {
+            let square = document.getElementById(indexToChessNotation(i, j));
+            square.style.color = "black";
             if (str[c] === ".")
-                document.getElementById(indexToChessNotation(i, j)).innerText = "";
+                square.innerText = "";
             else
-                document.getElementById(indexToChessNotation(i, j)).innerText = str[c];
+                square.innerText = str[c];
             c++;
+            if (str[c] === "+")
+            {
+                square.style.color = "red";
+                c++;
+            }
         }
     }
 }
@@ -595,4 +602,4 @@ document.getElementById("promotion").style.display = "none";
 createBoard();
 fillPieces(game);
 fillBoard(game.board.board);
-game.position.push([game.board.toString(), 1]);
+game.position.push([game.board.toString(game), 1]);
