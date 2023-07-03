@@ -569,6 +569,8 @@ function resign()
 {
     if (game.isOver)
         return;
+    if (!confirm("Are you sure you want to resign ?"))
+        return;
     game.isOver = true;
     let gameOver = document.getElementById("gameOver");
     const winner = (game.turn === "white" ? "Black" : "White");
