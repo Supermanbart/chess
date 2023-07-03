@@ -143,7 +143,7 @@ class King extends Piece{
                     
                     if (this.canMove(this.rank + i, this.file + j, game))
                     {
-                        console.log(this.rank + i, this.file + j)
+                        //console.log(this.rank + i, this.file + j)
                         return false;
                     }
                 }
