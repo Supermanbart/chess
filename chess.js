@@ -220,8 +220,7 @@ function move(e)
 
     if (game.positionNumber !== game.position.length)
     {
-        displayFromStr(game.position[game.position.length - 1][0]);
-        game.positionNumber = game.position.length;
+        displayEnd();
         return;
     }
 
@@ -302,6 +301,10 @@ function move(e)
             }
             let td = document.createElement("td");
             row.appendChild(td);
+            td.setAttribute("id", `positionNumber${game.positionNumber}`);
+            td.style.backgroundColor = "Silver";
+            if (game.positionNumber !== 1)
+                document.getElementById(`positionNumber${game.positionNumber - 1}`).style.backgroundColor = 'White';
             td.innerText = `${game.moves[game.moves.length - 1][0]}-${game.moves[game.moves.length - 1][1]}`;
             
             if (game.checkedSquare !== "")
@@ -515,15 +518,30 @@ function displayFromStr(str)
     }
 }
 
-function displayStart()
+function changeMoveBackgroundColor(end, game)
 {
+    if (end !== 1)
+    {
+        document.getElementById(`positionNumber${end - 1}`).style.backgroundColor = "Silver";
+    }
+
+    if (game.positionNumber !== 1)
+    {
+        document.getElementById(`positionNumber${game.positionNumber - 1}`).style.backgroundColor = "White";
+    }
+}
+
+function displayStart()
+{        
     displayFromStr(game.position[0][0]);
+    changeMoveBackgroundColor(1, game);
     game.positionNumber = 1;
 }
 
 function displayEnd()
 {
     displayFromStr(game.position[game.position.length - 1][0]);
+    changeMoveBackgroundColor(game.position.length, game);
     game.positionNumber = game.position.length;
 }
 
@@ -532,6 +550,7 @@ function displayPrevious()
     if (game.positionNumber === 1)
         return;
 
+    changeMoveBackgroundColor(game.positionNumber - 1, game);
     game.positionNumber--;
     displayFromStr(game.position[game.positionNumber - 1][0]);
 }
@@ -541,6 +560,7 @@ function displayNext()
     if (game.positionNumber === game.position.length)
         return;
 
+    changeMoveBackgroundColor(game.positionNumber + 1, game);
     game.positionNumber ++;
     displayFromStr(game.position[game.positionNumber - 1][0]);
 }
