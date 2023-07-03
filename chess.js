@@ -317,10 +317,10 @@ function move(e)
                 endTurn(game);
         }       
     }
-    else
+    /*else
         console.log("Cant move" + pieceSelected.symbol + "at" + rank + "," + file);
     
-    console.log(indexToChessNotation(pieceRank,pieceFile))
+    console.log(indexToChessNotation(pieceRank,pieceFile))*/
     if (isLightSquare(pieceRank, pieceFile))
         document.getElementById(indexToChessNotation(pieceRank, pieceFile)).style.backgroundColor = "#eee";
     else

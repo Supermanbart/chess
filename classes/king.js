@@ -84,7 +84,6 @@ class King extends Piece{
             return true;
         }
 
-        console.log("Hey");
         return false;
     }
     canMove(endRank, endFile, game) {
