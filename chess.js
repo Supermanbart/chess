@@ -10,6 +10,7 @@ const game = {
     turnNumber: 0,
     moves: [],
     position: [],
+    positionNumber: 1,
     isOver: false
 };
 
@@ -217,6 +218,13 @@ function move(e)
     if (document.getElementById("promotion").style.display !== 'none' || game.isOver)
         return;
 
+    if (game.positionNumber !== game.position.length)
+    {
+        displayFromStr(game.position[game.position.length - 1][0]);
+        game.positionNumber = game.position.length;
+        return;
+    }
+
     if (pieceSelected === undefined)
     {
         let [rank, file] = chessNotationtoindex(e.target.id);
@@ -381,10 +389,12 @@ function isDraw(game){
     {
         game.position[findPosition][1] += 1;
         if (game.position[findPosition][1] === 3)
+        {
+            game.position.push([currPosition, 1]);
             return "Repetition";
+        }
     }
-    else
-        game.position.push([currPosition, 1]);
+    game.position.push([currPosition, 1]);
     
     return undefined;
 }
@@ -427,6 +437,7 @@ function endTurn(game){
         document.getElementById("turnNumber").innerText = `Turn: ${game.turnNumber}`;
     }
 
+    game.positionNumber++;
     // Rotate board
     if (rotationButton === "changing")
         rotateBoard();
@@ -487,6 +498,51 @@ function rotationButtonFunc()
         rotationButton = "changing";
         button.innerText = "Rotation : Changing";
     }
+}
+
+function displayFromStr(str)
+{
+    let c = 0;
+    for (let i = 0; i < 8; i++){
+        for (let j = 0; j < 8; j++)
+        {
+            if (str[c] === ".")
+                document.getElementById(indexToChessNotation(i, j)).innerText = "";
+            else
+                document.getElementById(indexToChessNotation(i, j)).innerText = str[c];
+            c++;
+        }
+    }
+}
+
+function displayStart()
+{
+    displayFromStr(game.position[0][0]);
+    game.positionNumber = 1;
+}
+
+function displayEnd()
+{
+    displayFromStr(game.position[game.position.length - 1][0]);
+    game.positionNumber = game.position.length;
+}
+
+function displayPrevious()
+{
+    if (game.positionNumber === 1)
+        return;
+
+    game.positionNumber--;
+    displayFromStr(game.position[game.positionNumber - 1][0]);
+}
+
+function displayNext()
+{
+    if (game.positionNumber === game.position.length)
+        return;
+
+    game.positionNumber ++;
+    displayFromStr(game.position[game.positionNumber - 1][0]);
 }
 
 function resign()
