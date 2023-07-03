@@ -382,19 +382,17 @@ function isDraw(game){
     //Check for repeted position three times
     let currPosition = game.board.toString();
     let findPosition = 0;
-    while (findPosition < game.position.length && game.position[findPosition][0] !== currPosition)
+    while (findPosition < game.position.length - 1 && game.position[findPosition][0] !== currPosition)
         findPosition++;
 
-    if (findPosition < game.position.length)
+    if (findPosition < game.position.length - 1)
     {
         game.position[findPosition][1] += 1;
         if (game.position[findPosition][1] === 3)
         {
-            game.position.push([currPosition, 1]);
             return "Repetition";
         }
     }
-    game.position.push([currPosition, 1]);
     
     return undefined;
 }
@@ -404,6 +402,9 @@ function endTurn(game){
     if (game.turn === 'black')
         ennemyKing = game.whiteKing;
     
+    game.positionNumber++;
+    game.position.push([game.board.toString(), 1]);
+
     let draw = undefined;
     if (ennemyKing.isChecked(game))
     {
@@ -437,7 +438,6 @@ function endTurn(game){
         document.getElementById("turnNumber").innerText = `Turn: ${game.turnNumber}`;
     }
 
-    game.positionNumber++;
     // Rotate board
     if (rotationButton === "changing")
         rotateBoard();
